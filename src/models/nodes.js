@@ -4,10 +4,14 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const schema = new Schema({
-  title: {
+  name: {
+    type: String,
+    required: true
+  },
+  value: {
     type: String,
     required: true,
-    trim: true
+    default: "0"
   },
   slug: {
     type: String,
@@ -16,23 +20,21 @@ const schema = new Schema({
     index: true,
     unique: true
   },
-  description: {
-    type: String,
-    required: true
-  },
-  price: {
-    type: Number,
+  create_date: {
+    type: Date,
     required: true,
+    default: Date.now
   },
-  active: {
+  read_only: {
     type: Boolean,
     required: true,
-    default: true
+    default: false
   },
-  tags: [{
-    type: String,
-    required: true
-  }]
+  on_status: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
 });
 
 module.exports = mongoose.model('Nodes', schema);

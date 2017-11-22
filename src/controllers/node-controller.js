@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const Node = mongoose.model('Nodes');
 
 exports.get = (req, res, next) => {
-  Node.find({active:true}, 'title slug price')
+  Node.find({}, 'name slug value')
   .then(data => {
     res.status(200).send(data);
   }).catch(e => {
@@ -13,7 +13,7 @@ exports.get = (req, res, next) => {
 };
 
 exports.getBySlug = (req, res, next) => {
-  Node.find({slug: req.params.slug, active:true}, 'title slug price tags')
+  Node.find({slug: req.params.slug}, 'name slug value read_only')
   .then(data => {
     res.status(200).send(data);
   }).catch(e => {
@@ -25,32 +25,32 @@ exports.post = (req, res, next) => {
   var node = new Node(req.body);
   node.save()
     .then(x => {
-      res.status(201).send({ message: 'Produto Cadastrado com sucesso!' });
+      res.status(201).send({ message: 'Nó sensor Cadastrado com sucesso!' });
     }).catch(e => {
-      res.status(400).send({ message: 'Falha ao Cadastrar Produto!', data: e});
+      res.status(400).send({ message: 'Falha ao Cadastrar nó sensor!', data: e});
     });
 };
 
 exports.put = (req, res, next) => {
-  Node.findByIdAndUpdate(req.params.id, {
+  Node.findOneAndUpdate({slug: req.params.slug}, {
     $set: {
-      title: req.body.title,
-      price: req.body.price
+      name: req.body.name,
+      slug: req.body.slug,
+      on_status: req.body.on_status
     }
   })
   .then(x => {
-    res.status(200).send({ message: 'Produto atualizado com sucesso!' });
+    res.status(200).send({ message: 'Nó sensor atualizado com sucesso!' });
   }).catch(e => {
-    res.status(400).send({ message: 'Falha ao atualizar Produto!', data: e});
+    res.status(400).send({ message: 'Falha ao atualizar nó sensor!', data: e});
   });
 };
 
-
 exports.delete = (req, res, next) => {
-  Node.findOneAndRemove(req.body.id)
+  Node.findOneAndRemove({slug: req.params.slug})
   .then(x => {
-    res.status(200).send({ message: 'Produto removido com sucesso!' });
+    res.status(200).send({ message: 'Nó sensor removido com sucesso!' });
   }).catch(e => {
-    res.status(400).send({ message: 'Falha ao remover Produto!', data: e});
+    res.status(400).send({ message: 'Falha ao remover nó sensor!', data: e});
   });
 };

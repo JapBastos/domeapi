@@ -7,7 +7,7 @@ const controller = require('../controllers/node-controller');
 router.get('/', controller.get);
 router.get('/:slug', controller.getBySlug);
 router.post('/', controller.post);
-router.put('/:id', controller.put);
-router.delete('/', controller.delete);
+router.put('/:slug', controller.put);
+router.delete('/:slug', controller.delete);
 
 module.exports = router;
